@@ -1,9 +1,10 @@
+@regression
 Feature: Delete Employee
   As an API client
   I want to delete an employee
   So that the employee is removed from the system
 
-    @positive
+    @smoke @positive
   Scenario: Successfully delete an employee
     Given an existing employee with id 1
     When I send a DELETE request to "/employees" with id 1
@@ -16,4 +17,3 @@ Feature: Delete Employee
     When I send a DELETE request to "/employees" with id 999
     Then the response status should be 404
     And the response should contain an error message stating invalid id
-

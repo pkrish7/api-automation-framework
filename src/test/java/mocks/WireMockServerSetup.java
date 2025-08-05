@@ -3,32 +3,40 @@ package mocks;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
+@Slf4j
 public class WireMockServerSetup {
     private static WireMockServer wireMockServer;
 
     public static void startServer() {
+        log.info("Starting WireMock server on port 9090...");
         wireMockServer = new WireMockServer(WireMockConfiguration.options().port(9090));
         wireMockServer.start();
         WireMock.configureFor("localhost", 9090);
         setupStubs();
+        log.info("WireMock server started.");
     }
 
     public static void stopServer() {
         if (wireMockServer != null) {
+            log.info("Stopping WireMock server...");
             wireMockServer.stop();
+            log.info("WireMock server stopped.");
         }
     }
 
     private static void setupStubs() {
+        log.info("Setting up WireMock stubs...");
+
         // GET /employees
         WireMock.stubFor(WireMock.get(urlEqualTo("/employees"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
-                    .withBody("[{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"},{\"id\":2,\"name\":\"Jane Smith\",\"role\":\"Tester\"}]")
+                .withBody("[{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"},{\"id\":2,\"name\":\"Jane Smith\",\"role\":\"Tester\"},{\"id\":3,\"name\":\"Alice Brown\",\"role\":\"Manager\"}]")
             )
         );
 
@@ -110,5 +118,7 @@ public class WireMockServerSetup {
                 .withBody("{\"error\":\"invalid id\"}")
             )
         );
+
+        log.info("WireMock stubs setup complete.");
     }
 }

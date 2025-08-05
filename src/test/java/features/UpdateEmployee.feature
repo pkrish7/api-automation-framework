@@ -1,9 +1,10 @@
+@regression
 Feature: Update Employee
   As an API client
   I want to update employee details
   So that the employee information is kept current
 
-  @positive
+  @smoke @positive
   Scenario: Successfully update an employee
     Given an existing employee with id 1
     And the update payload is valid
@@ -26,4 +27,3 @@ Feature: Update Employee
     When I send a PUT request to "/employees" with id 1
     Then the response status should be 400
     And the response should contain an error message stating invalid payload
-

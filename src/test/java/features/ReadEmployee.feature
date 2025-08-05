@@ -1,13 +1,14 @@
+@regression
 Feature: Read Employee
   As an API client
   I want to retrieve employee details
   So that I can view employee information
 
-  @positive
+  @smoke @positive
   Scenario: Successfully retrieve all employees
     When I send a GET request to the employees API
     Then the response status should be 200
-    And the response should contain a list of employees
+    And the response should contain a list of employees from CSV
 
   @positive
   Scenario: Successfully retrieve a specific employee by id
