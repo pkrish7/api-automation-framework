@@ -1,6 +1,5 @@
 package stepdefs;
 
-import config.TestConfig;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +12,6 @@ import utils.CsvUtils;
 import utils.RequestBuilderFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,14 +81,23 @@ public class EmployeeStepDefs {
     @Then("the response should contain a list of employees")
     public void verifyResponseContainsListOfEmployees() {
         log.info("Verifying response contains list of employees");
-        Assert.assertEquals(responseBody, "[{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"},{\"id\":2,\"name\":\"Jane Smith\",\"role\":\"Tester\"}]");
+        List<String[]> rows = CsvUtils.readEnvCsv("employees.csv");
+        List<String> expectedEmployees = new ArrayList<>();
+        boolean firstLine = true;
+        for (String[] line : rows) {
+            if (firstLine) { firstLine = false; continue; } // skip header
+            if (line.length < 3) continue; // skip blank or malformed lines
+            expectedEmployees.add(String.format("{\"id\":%s,\"name\":\"%s\",\"role\":\"%s\"}", line[0], line[1], line[2]));
+        }
+        String expectedJson = "[" + String.join(",", expectedEmployees) + "]";
+        Assert.assertEquals(responseBody, expectedJson);
     }
 
     @Then("the response should contain a list of employees from CSV")
     public void verifyResponseContainsListOfEmployeesFromCSV() {
         try {
             log.info("Verifying response contains list of employees from CSV");
-            List<String[]> rows = CsvUtils.readCsv("testdata/employees.csv");
+            List<String[]> rows = CsvUtils.readEnvCsv("employees.csv");
             List<String> expectedEmployees = new ArrayList<>();
             boolean firstLine = true;
             for (String[] line : rows) {

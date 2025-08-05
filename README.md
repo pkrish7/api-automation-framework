@@ -95,3 +95,20 @@ api.version=v1
 - The framework automatically retries failed tests up to 2 times using TestNG's retry analyzer.
 - This helps reduce false negatives due to intermittent issues (e.g., network glitches, timing problems).
 - You can adjust the retry count in `src/test/java/utils/RetryFailedTestAnalyzer.java`.
+
+## Parallel Execution
+
+- TestNG is configured for parallel execution with 4 threads in `testng.xml`.
+- Cucumber step definitions are thread-safe by design (new instance per scenario).
+
+## Environment-Specific Test Data
+
+- Test data is organized by environment:
+  - `src/test/resources/testdata/dev/employees.csv`
+  - `src/test/resources/testdata/qa/employees.csv`
+- The environment is set in `src/test/resources/config.properties` via the `env` property (e.g., `env=dev`).
+- You can override the environment at runtime:
+  ```sh
+  mvn test -Denv=qa
+  ```
+- Step definitions automatically load the correct test data for the selected environment.

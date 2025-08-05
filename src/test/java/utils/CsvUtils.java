@@ -1,6 +1,7 @@
 package utils;
 
 import com.opencsv.CSVReader;
+import config.TestConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStreamReader;
@@ -33,5 +34,10 @@ public class CsvUtils {
         }
         return rows;
     }
-}
 
+    public static List<String[]> readEnvCsv(String fileName) {
+        String env = TestConfig.getProperty("env");
+        String resourcePath = "testdata/" + env + "/" + fileName;
+        return readCsv(resourcePath);
+    }
+}
