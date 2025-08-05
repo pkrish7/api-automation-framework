@@ -1,7 +1,10 @@
 target/
+.idea/, *.iml, *.ipr, *.iws
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+.idea
+allure-results/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -36,3 +39,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+.idea/
+.idea/
