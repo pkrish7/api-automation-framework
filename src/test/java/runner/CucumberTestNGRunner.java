@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 @CucumberOptions(
     features = "src/test/java/features",
     glue = {"stepdefs"},
-    plugin = {"pretty", "html:target/cucumber-report.html", "json:target/cucumber-report.json"}
+    plugin = {"pretty", "summary", "html:target/cucumber-report.html", "json:target/cucumber-report.json"}
 )
 public class CucumberTestNGRunner extends AbstractTestNGCucumberTests {
     @BeforeClass

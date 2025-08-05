@@ -40,9 +40,9 @@ api.version=v1
 
 ## Running Tests
 
-1. **Run all tests with Maven**
+1. **Run all tests with Maven (parallel, using testng.xml)**
    ```sh
-   mvn test
+   mvn test -DsuiteXmlFile=testng.xml
    ```
 
 2. **Run tests by category**

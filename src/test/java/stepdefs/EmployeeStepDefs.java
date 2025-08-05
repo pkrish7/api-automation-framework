@@ -24,6 +24,7 @@ public class EmployeeStepDefs {
     // CREATE EMPLOYEE STEPS
     @When("I send a POST request to {string}")
     public void sendPostRequestToEmployees(String endpoint) {
+        log.info("Thread: " + Thread.currentThread().getId());
         String payload = "{ \"name\": \"Alice Brown\", \"role\": \"Manager\" }";
         log.info("Sending POST request to {} with payload: {}", endpoint, payload);
         response = RequestBuilderFactory.createRequest(endpoint, Map.of("Content-Type", "application/json"), payload)
@@ -65,6 +66,7 @@ public class EmployeeStepDefs {
     // READ EMPLOYEE STEPS
     @When("I send a GET request to the employees API")
     public void sendGetRequestToEmployeesApi() {
+        log.info("Thread: " + Thread.currentThread().getId());
         log.info("Sending GET request to /employees");
         response = RequestBuilderFactory.createRequest("/employees", null, null)
                 .get();
@@ -129,6 +131,7 @@ public class EmployeeStepDefs {
 
     @When("I send a GET request to the employee API with id {int}")
     public void sendGetRequestToEmployeeApiWithid(int id) {
+        log.info("Thread: " + Thread.currentThread().getId());
         log.info("Sending GET request to /employees/{}", id);
         response = RequestBuilderFactory.createRequest("/employees/" + id, null, null)
                 .get();
@@ -168,6 +171,7 @@ public class EmployeeStepDefs {
 
     @When("I send a PUT request to {string} with id {int}")
     public void sendPutRequestToUpdateEmployee(String endpoint, int id) {
+        log.info("Thread: " + Thread.currentThread().getId());
         log.info("Sending PUT request to {} with id {} and payload: {}", endpoint, id, responseBody);
         response = RequestBuilderFactory.createRequest(endpoint + "/" + id, Map.of("Content-Type", "application/json"), responseBody)
                 .put();
@@ -199,6 +203,7 @@ public class EmployeeStepDefs {
     // DELETE EMPLOYEE STEPS
     @When("I send a DELETE request to {string} with id {int}")
     public void sendDeleteRequestToEmployee(String endpoint, int id) {
+        log.info("Thread: " + Thread.currentThread().getId());
         log.info("Sending DELETE request to {} with id {}", endpoint, id);
         response = RequestBuilderFactory.createRequest(endpoint + "/" + id, Map.of("Content-Type", "application/json"), null)
                 .delete();
