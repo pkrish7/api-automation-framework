@@ -1,5 +1,7 @@
 package stepdefs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import config.TestConfig;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,10 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import utils.AssertUtils;
 import utils.CsvUtils;
-import utils.RequestBuilderFactory;
-import config.TestConfig;
 import utils.FileUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import utils.RequestBuilderFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ public class EmployeeStepDefs {
     private int responseCode;
     private String responseBody;
     private Response response;
+    private static final Map<String, String> JSON_HEADERS = Map.of("Content-Type", "application/json");
 
     // CREATE EMPLOYEE STEPS
 
@@ -35,7 +36,7 @@ public class EmployeeStepDefs {
 
         response = RequestBuilderFactory.createRequest(
                 endpoint,
-                Map.of("Content-Type", "application/json"),
+                JSON_HEADERS,
                 payload
         ).post();
         responseCode = response.getStatusCode();
@@ -56,10 +57,14 @@ public class EmployeeStepDefs {
         String payload = FileUtils.readResourceFile("payloads/employee-missing-fields.json");
         log.info("Sending POST request to {} with missing fields payload: {}", endpoint, payload);
 
-        response = RequestBuilderFactory.createRequest(endpoint, Map.of("Content-Type", "application/json"), payload)
+        response = RequestBuilderFactory.createRequest(
+                endpoint,
+                JSON_HEADERS,
+                payload)
                 .post();
         responseCode = response.getStatusCode();
         responseBody = response.getBody().asString();
+
         log.info("Received response: status={}, body={}", responseCode, responseBody);
     }
 
@@ -79,10 +84,12 @@ public class EmployeeStepDefs {
     public void sendGetRequestToEmployeesApi() {
         log.info("Thread: " + Thread.currentThread().getId());
         log.info("Sending GET request to /employees");
-        response = RequestBuilderFactory.createRequest("/employees", null, null)
+
+        response = RequestBuilderFactory.createRequest(TestConfig.getEmployeesEndpoint(), null, null)
                 .get();
         responseCode = response.getStatusCode();
         responseBody = response.getBody().asString();
+
         log.info("Received response: status={}, body={}", responseCode, responseBody);
     }
 
