@@ -20,11 +20,13 @@ import java.util.Map;
 
 @Slf4j
 public class EmployeeStepDefs {
+
     private int responseCode;
     private String responseBody;
     private Response response;
 
     // CREATE EMPLOYEE STEPS
+
     @When("I send a POST request to {string}")
     public void sendPostRequestToEmployees(String endpoint) {
         log.info("Thread: " + Thread.currentThread().getId());
@@ -66,6 +68,7 @@ public class EmployeeStepDefs {
     }
 
     // READ EMPLOYEE STEPS
+
     @When("I send a GET request to the employees API")
     public void sendGetRequestToEmployeesApi() {
         log.info("Thread: " + Thread.currentThread().getId());
@@ -121,6 +124,7 @@ public class EmployeeStepDefs {
     }
 
     // GET EMPLOYEE BY ID
+
     @Given("an employee with id {int} exists")
     public void ensureEmployeeWithidExists(int id) {
         // This is left empty as WireMock is preconfigured
@@ -172,6 +176,7 @@ public class EmployeeStepDefs {
     }
 
     // UPDATE EMPLOYEE STEPS
+
     @And("the update payload is valid")
     public void updatePayloadIsValid() {
         responseBody = "{ \"name\": \"John Doe Updated\", \"role\": \"Lead\" }";
@@ -210,6 +215,7 @@ public class EmployeeStepDefs {
     }
 
     // DELETE EMPLOYEE STEPS
+
     @When("I send a DELETE request to {string} with id {int}")
     public void sendDeleteRequestToEmployee(String endpoint, int id) {
         log.info("Thread: " + Thread.currentThread().getId());
