@@ -29,13 +29,18 @@ public class EmployeeStepDefs {
 
     @When("I send a POST request to {string}")
     public void sendPostRequestToEmployees(String endpoint) {
-        log.info("Thread: " + Thread.currentThread().getId());
+        log.info("Thread: {}", Thread.currentThread().getId());
         String payload = FileUtils.readResourceFile(TestConfig.getEmployeePayloadPath());
         log.info("Sending POST request to {} with payload: {}", endpoint, payload);
-        response = RequestBuilderFactory.createRequest(endpoint, Map.of("Content-Type", "application/json"), payload)
-                .post();
+
+        response = RequestBuilderFactory.createRequest(
+                endpoint,
+                Map.of("Content-Type", "application/json"),
+                payload
+        ).post();
         responseCode = response.getStatusCode();
         responseBody = response.getBody().asString();
+
         log.info("Received response: status={}, body={}", responseCode, responseBody);
     }
 
@@ -48,8 +53,9 @@ public class EmployeeStepDefs {
 
     @When("I send a POST request to {string} with a payload that is missing required employee fields")
     public void sendPostRequestWithMissingFields(String endpoint) {
-        String payload = "{\"name\":\"\"}";
+        String payload = FileUtils.readResourceFile("payloads/employee-missing-fields.json");
         log.info("Sending POST request to {} with missing fields payload: {}", endpoint, payload);
+
         response = RequestBuilderFactory.createRequest(endpoint, Map.of("Content-Type", "application/json"), payload)
                 .post();
         responseCode = response.getStatusCode();

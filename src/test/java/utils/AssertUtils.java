@@ -17,7 +17,7 @@ public class AssertUtils {
                 "Expected status code: " + expectedStatus + ", but got: " + response.getStatusCode());
     }
 
-    public static void assertJsonFieldEquals(Response response, String field, Object expectedValue) {
+    public static void  assertJsonFieldEquals(Response response, String field, Object expectedValue) {
         Object actualValue = response.jsonPath().get(field);
         Assert.assertEquals(actualValue, expectedValue,
                 "Expected value for field '" + field + "': " + expectedValue + ", but got: " + actualValue);
