@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import mocks.WireMockServerSetup;
-
 public class TestConfig {
     public static final String BASE_URL;
     private static final Properties properties = new Properties();
@@ -27,3 +25,4 @@ public class TestConfig {
         return properties.getProperty(key);
     }
 }
+
