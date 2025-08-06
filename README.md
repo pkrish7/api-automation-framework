@@ -112,3 +112,26 @@ api.version=v1
   mvn test -Denv=qa
   ```
 - Step definitions automatically load the correct test data for the selected environment.
+
+## Retrying Failed Scenarios (Cucumber Rerun)
+
+This framework supports rerunning only failed Cucumber scenarios using the rerun plugin and a dedicated runner class.
+
+### How it works
+1. **First run:** Execute all scenarios using the main runner (`CucumberTestNGRunner`). Any failed scenarios will be listed in `target/rerun.txt`.
+2. **Rerun failed scenarios:** Execute only the failed scenarios using the rerun runner (`CucumberRerunTestNGRunner`).
+
+### Commands
+
+Run all scenarios:
+```sh
+mvn test -DsuiteXmlFile=testng.xml
+```
+
+Rerun only failed scenarios:
+```sh
+mvn test -Dtest=runner.CucumberRerunTestNGRunner
+```
+
+- `CucumberTestNGRunner` runs all scenarios in the project.
+- `CucumberRerunTestNGRunner` runs only the scenarios listed in `target/rerun.txt` (i.e., failed scenarios from the previous run).
