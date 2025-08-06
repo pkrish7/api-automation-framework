@@ -8,7 +8,7 @@ Feature: Read Employee
   Scenario: Successfully retrieve all employees
     When I send a GET request to the employees API
     Then the response status should be 200
-    And the response should contain a list of employees from CSV
+    And the response should contain all employees as defined in the CSV file
 
   @positive
   Scenario: Successfully retrieve a specific employee by id

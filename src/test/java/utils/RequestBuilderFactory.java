@@ -7,12 +7,12 @@ import config.TestConfig;
 
 public class RequestBuilderFactory {
     public static RequestSpecification createRequest(String endpoint, Map<String, String> headers, Object payload) {
-        RequestSpecification req = given()
+        RequestSpecification request = given()
             .baseUri(TestConfig.BASE_URL)
             .basePath(endpoint);
-        if (headers != null) req.headers(headers);
-        if (payload != null) req.body(payload);
-        return req;
+        if (headers != null) request.headers(headers);
+        if (payload != null) request.body(payload);
+        return request;
     }
 }
 

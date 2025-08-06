@@ -9,9 +9,9 @@ import org.testng.annotations.BeforeClass;
 @CucumberOptions(
     features = "src/test/java/features",
     glue = {"stepdefs"},
-    plugin = {"pretty", "summary", "html:target/cucumber-report.html", "json:target/cucumber-report.json"}
+    plugin = {"pretty", "summary", "html:target/cucumber-report.html", "json:target/cucumber-report.json", "rerun:target/rerun.txt"}
 )
-public class CucumberTestNGRunner extends AbstractTestNGCucumberTests {
+public class CucumberTest extends AbstractTestNGCucumberTests {
     @BeforeClass
     public void setUp() {
         WireMockServerSetup.startServer();

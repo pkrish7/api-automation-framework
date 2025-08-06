@@ -42,3 +42,6 @@ build/
 
 .idea/
 .idea/
+
+# Allure results
+allure-results/
