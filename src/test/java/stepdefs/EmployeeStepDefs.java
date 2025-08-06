@@ -148,7 +148,14 @@ public class EmployeeStepDefs {
     @Then("the response should contain the employee details for id {int}")
     public void verifyResponseContainsEmployeeDetailsForid(int id) {
         log.info("Verifying response contains employee details for id {}: {}", id, responseBody);
-        Assert.assertEquals(responseBody, "{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"}");
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> actual = objectMapper.readValue(responseBody, Map.class);
+            Map<String, Object> expected = objectMapper.readValue("{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"}", Map.class);
+            Assert.assertEquals(actual, expected);
+        } catch (Exception e) {
+            throw new AssertionError("Failed to parse JSON for comparison", e);
+        }
     }
 
     @When("I send a GET request to the employee API with a non-existent id {int}")
