@@ -3,7 +3,9 @@ package mocks;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import config.TestConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.testng.annotations.Test;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
@@ -12,10 +14,11 @@ public class WireMockServerSetup {
     private static WireMockServer wireMockServer;
 
     public static void startServer() {
-        log.info("Starting WireMock server on port 9090...");
-        wireMockServer = new WireMockServer(WireMockConfiguration.options().port(9090));
+        int port = TestConfig.getWireMockPort();
+        log.info("Starting WireMock server on port {}...", port);
+        wireMockServer = new WireMockServer(WireMockConfiguration.options().port(port));
         wireMockServer.start();
-        WireMock.configureFor("localhost", 9090);
+        WireMock.configureFor("localhost", port);
         setupStubs();
         log.info("WireMock server started.");
     }
@@ -32,15 +35,15 @@ public class WireMockServerSetup {
         log.info("Setting up WireMock stubs...");
 
         // GET /employees
-        WireMock.stubFor(WireMock.get(urlEqualTo("/employees"))
-            .willReturn(aResponse()
-                .withStatus(200)
-                .withHeader("Content-Type", "application/json")
-                .withBody("[{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"},{\"id\":2,\"name\":\"Jane Smith\",\"role\":\"Tester\"},{\"id\":3,\"name\":\"Alice Brown\",\"role\":\"Manager\"}]")
-            )
+        WireMock.stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint()))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("[{\"id\":1,\"name\":\"John Doe\",\"role\":\"Developer\"},{\"id\":2,\"name\":\"Jane Smith\",\"role\":\"Tester\"},{\"id\":3,\"name\":\"Alice Brown\",\"role\":\"Manager\"}]")
+                )
         );
 
-        WireMock.stubFor(WireMock.get(urlEqualTo("/employees/1"))
+        WireMock.stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/1"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
@@ -48,7 +51,7 @@ public class WireMockServerSetup {
                 )
         );
 
-        WireMock.stubFor(WireMock.get(urlEqualTo("/employees/999"))
+        WireMock.stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/999"))
                 .willReturn(aResponse()
                         .withStatus(404)
                         .withHeader("Content-Type", "application/json")
@@ -57,7 +60,7 @@ public class WireMockServerSetup {
         );
 
         // POST /employees
-        WireMock.stubFor(post(urlEqualTo("/employees"))
+        WireMock.stubFor(post(urlEqualTo(TestConfig.getEmployeesEndpoint()))
             .willReturn(aResponse()
                 .withStatus(201)
                 .withHeader("Content-Type", "application/json")
@@ -66,7 +69,7 @@ public class WireMockServerSetup {
         );
 
         // POST /employees - 400 Bad Request
-        WireMock.stubFor(post(urlEqualTo("/employees"))
+        WireMock.stubFor(post(urlEqualTo(TestConfig.getEmployeesEndpoint()))
                 .withRequestBody(equalToJson("{\"name\":\"\"}"))
                 .willReturn(aResponse()
                         .withStatus(400)
@@ -76,7 +79,7 @@ public class WireMockServerSetup {
         );
 
         // PUT /employees/1
-        stubFor(put(urlEqualTo("/employees/1"))
+        stubFor(put(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/1"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
@@ -85,7 +88,7 @@ public class WireMockServerSetup {
         );
 
         // PUT /employees/999 - 404 Not Found
-        stubFor(put(urlEqualTo("/employees/999"))
+        stubFor(put(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/999"))
             .willReturn(aResponse()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/json")
@@ -94,7 +97,7 @@ public class WireMockServerSetup {
         );
 
         // PUT /employees/1 - 400 Bad Request for invalid payload
-        stubFor(put(urlEqualTo("/employees/1"))
+        stubFor(put(urlEqualTo(TestConfig.getEmployeesEndpoint()+ "/1"))
                 .withRequestBody(equalToJson("{\"name\":\"\"}"))
                 .willReturn(aResponse()
                         .withStatus(400)
@@ -104,14 +107,14 @@ public class WireMockServerSetup {
         );
 
         // DELETE /employees/1 - Success
-        stubFor(delete(urlEqualTo("/employees/1"))
+        stubFor(delete(urlEqualTo(TestConfig.getEmployeesEndpoint()+ "/1"))
             .willReturn(aResponse()
                 .withStatus(204)
             )
         );
 
         // DELETE /employees/999 - Not Found
-        stubFor(delete(urlEqualTo("/employees/999"))
+        stubFor(delete(urlEqualTo(TestConfig.getEmployeesEndpoint()+ "/999"))
             .willReturn(aResponse()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/json")
