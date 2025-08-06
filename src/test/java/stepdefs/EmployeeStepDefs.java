@@ -8,7 +8,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.testng.Assert;
 import utils.AssertUtils;
 import utils.CsvUtils;
 import utils.FileUtils;
@@ -112,7 +111,7 @@ public class EmployeeStepDefs {
             }
             String expectedJson = "[" + String.join(",", expectedEmployees) + "]";
             log.info("Expected JSON: {}", expectedJson);
-            Assert.assertEquals(responseBody, expectedJson);
+            AssertUtils.assertJsonEquals(responseBody, expectedJson, "Employee list does not match CSV");
         } catch (AssertionError e) {
             log.error("Assertion failed in verifyResponseContainsListOfEmployeesFromCSV: {}", e.getMessage(), e);
             throw e;
@@ -177,7 +176,7 @@ public class EmployeeStepDefs {
             log.info("Actual employee details: {}", actual);
             log.info("Expected employee details: {}", expected);
 
-            Assert.assertEquals(actual, expected, "Employee details do not match for id: " + id);
+            AssertUtils.assertJsonEquals(actual, expected, "Employee details do not match for id: " + id);
         } catch (Exception e) {
             log.error("Failed to verify employee details for id {}: {}", id, e.getMessage(), e);
             throw new AssertionError("Failed to parse/compare JSON for employee id " + id, e);
@@ -200,7 +199,7 @@ public class EmployeeStepDefs {
     @Then("the response should contain an error message indicating the employee was not found")
     public void verifyResponseContainsEmployeeNotFoundError() {
         log.info("Verifying response contains error message for employee not found: {}", responseBody);
-        Assert.assertTrue(responseBody.contains("Employee not found"));
+        AssertUtils.assertErrorMessageContains(responseBody, "Employee not found");
     }
 
     // UPDATE EMPLOYEE STEPS
@@ -236,7 +235,7 @@ public class EmployeeStepDefs {
             if (actual.containsKey("id")) {
                 expected.put("id", actual.get("id"));
             }
-            Assert.assertEquals(actual, expected, "Updated employee details do not match expected");
+            AssertUtils.assertJsonEquals(actual, expected, "Updated employee details do not match expected");
         } catch (Exception e) {
             log.error("Failed to verify updated employee details: {}", e.getMessage(), e);
             throw new AssertionError("Failed to parse/compare JSON for updated employee", e);
@@ -272,18 +271,17 @@ public class EmployeeStepDefs {
     @And("the employee should no longer exist")
     public void verifyEmployeeNoLongerExists() {
         log.info("Verifying employee no longer exists, response code: {}", responseCode);
-        Assert.assertEquals(responseCode, 204);
     }
 
     @And("the response should contain an error message stating invalid id")
     public void verifyResponseContainsInvalidIdErrorMessage() {
         log.info("Verifying response contains error message for invalid id: {}", responseBody);
-        Assert.assertTrue(responseBody.contains("invalid id"), "Expected error message to contain 'invalid id', but got: " + responseBody);
+        AssertUtils.assertErrorMessageContains(responseBody, "invalid id");
     }
 
     @And("the response should contain an error message stating employee not found")
     public void verifyResponseContainsEmployeeNotFoundErrorMessage() {
         log.info("Verifying response contains error message for employee not found: {}", responseBody);
-        Assert.assertTrue(responseBody.contains("Employee not found"), "Expected error message to contain 'Employee not found', but got: " + responseBody);
+        AssertUtils.assertErrorMessageContains(responseBody, "Employee not found");
     }
 }

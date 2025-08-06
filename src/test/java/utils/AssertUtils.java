@@ -23,6 +23,11 @@ public class AssertUtils {
                 "Expected value for field '" + field + "': " + expectedValue + ", but got: " + actualValue);
     }
 
+    public static void assertErrorMessageContains(String responseBody, String expectedMessage) {
+        Assert.assertTrue(responseBody.contains(expectedMessage),
+                "Expected error message to contain '" + expectedMessage + "', but got: " + responseBody);
+    }
+
     public static void assertJsonSchema(Response response, String schemaResourcePath) {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -36,6 +41,25 @@ public class AssertUtils {
             Assert.assertTrue(errors.isEmpty(), "JSON schema validation errors: " + errors);
         } catch (Exception e) {
             throw new AssertionError("Schema validation failed: " + e.getMessage(), e);
+        }
+    }
+
+    public static void assertJsonEquals(Map<String, Object> actual, Map<String, Object> expected, String message) {
+        if (!actual.equals(expected)) {
+            throw new AssertionError(message + "\nExpected: " + expected + "\nActual: " + actual);
+        }
+    }
+
+    public static void assertJsonEquals(String actualJson, String expectedJson, String message) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Object actualObj = mapper.readTree(actualJson);
+            Object expectedObj = mapper.readTree(expectedJson);
+            if (!actualObj.equals(expectedObj)) {
+                throw new AssertionError(message + "\nExpected: " + expectedObj + "\nActual: " + actualObj);
+            }
+        } catch (Exception e) {
+            throw new AssertionError("JSON comparison failed: " + e.getMessage(), e);
         }
     }
 }
