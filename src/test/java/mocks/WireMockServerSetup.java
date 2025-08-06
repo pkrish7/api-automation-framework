@@ -35,7 +35,7 @@ public class WireMockServerSetup {
         log.info("Setting up WireMock stubs...");
 
         // GET /employees
-        WireMock.stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint()))
+        stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint()))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
@@ -43,7 +43,7 @@ public class WireMockServerSetup {
                 )
         );
 
-        WireMock.stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/1"))
+        stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/1"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
@@ -51,7 +51,7 @@ public class WireMockServerSetup {
                 )
         );
 
-        WireMock.stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/999"))
+        stubFor(WireMock.get(urlEqualTo(TestConfig.getEmployeesEndpoint() + "/999"))
                 .willReturn(aResponse()
                         .withStatus(404)
                         .withHeader("Content-Type", "application/json")
@@ -60,7 +60,7 @@ public class WireMockServerSetup {
         );
 
         // POST /employees
-        WireMock.stubFor(post(urlEqualTo(TestConfig.getEmployeesEndpoint()))
+        stubFor(post(urlEqualTo(TestConfig.getEmployeesEndpoint()))
             .willReturn(aResponse()
                 .withStatus(201)
                 .withHeader("Content-Type", "application/json")
@@ -69,7 +69,7 @@ public class WireMockServerSetup {
         );
 
         // POST /employees - 400 Bad Request
-        WireMock.stubFor(post(urlEqualTo(TestConfig.getEmployeesEndpoint()))
+        stubFor(post(urlEqualTo(TestConfig.getEmployeesEndpoint()))
                 .withRequestBody(equalToJson("{\"name\":\"\"}"))
                 .willReturn(aResponse()
                         .withStatus(400)
