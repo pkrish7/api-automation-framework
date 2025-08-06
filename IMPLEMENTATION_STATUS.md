@@ -34,6 +34,7 @@ This document maps each assessment requirement to its implementation status, loc
 | JSON Schema validation | Implemented | `AssertUtils.java`, schemas in `src/test/resources/schemas/` |
 | Thread-safe parallel execution with isolated test data | Implemented | TestNG parallel config in `testng.xml`, environment-specific data in `testdata/` |
 | Environment-specific test datasets | Implemented | `testdata/dev/`, `testdata/qa/`, config in `config.properties` |
+ | Allure report integration | Not Implemented | **Pending** |
 | Docker file to run tests automatically | Not Implemented | **Pending** |
 | docker-compose.yaml for dependencies | Not Implemented | **Pending** |
 | Jenkinsfile for CI/CD | Not Implemented | **Pending** |
