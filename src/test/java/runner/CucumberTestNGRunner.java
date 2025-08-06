@@ -9,7 +9,7 @@ import mocks.WireMockServerSetup;
 @CucumberOptions(
     features = "src/test/java/features",
     glue = {"steps"},
-    plugin = {"pretty", "html:target/cucumber-report.html", "json:target/cucumber-report.json"}
+    plugin = {"pretty", "summary", "html:target/cucumber-report.html", "json:target/cucumber-report.json", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 )
 public class CucumberTestNGRunner extends AbstractTestNGCucumberTests {
     @BeforeClass
@@ -22,4 +22,3 @@ public class CucumberTestNGRunner extends AbstractTestNGCucumberTests {
         WireMockServerSetup.stopServer();
     }
 }
-
