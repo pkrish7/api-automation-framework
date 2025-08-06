@@ -30,7 +30,7 @@ public class CsvUtils {
             log.error("Error reading CSV {}: {}", resourcePath, e.getMessage(), e);
             throw new RuntimeException(e);
         } finally {
-            try { if (isr != null) isr.close(); } catch (Exception ignore) {}
+            try { if (isr != null) isr.close(); } catch (Exception e) { log.warn("Exception while closing InputStreamReader: {}", e.getMessage(), e); }
         }
         return rows;
     }
