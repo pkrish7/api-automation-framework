@@ -233,6 +233,12 @@ public class EmployeeStepDefs {
     @And("the response should contain an error message stating invalid id")
     public void verifyResponseContainsInvalidIdErrorMessage() {
         log.info("Verifying response contains error message for invalid id: {}", responseBody);
-        Assert.assertTrue(responseBody.contains("invalid id") || responseBody.contains("Employee not found"));
+        Assert.assertTrue(responseBody.contains("invalid id"), "Expected error message to contain 'invalid id', but got: " + responseBody);
+    }
+
+    @And("the response should contain an error message stating employee not found")
+    public void verifyResponseContainsEmployeeNotFoundErrorMessage() {
+        log.info("Verifying response contains error message for employee not found: {}", responseBody);
+        Assert.assertTrue(responseBody.contains("Employee not found"), "Expected error message to contain 'Employee not found', but got: " + responseBody);
     }
 }
