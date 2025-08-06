@@ -10,14 +10,13 @@ import org.testng.Assert;
 import utils.AssertUtils;
 import utils.CsvUtils;
 import utils.RequestBuilderFactory;
+import config.TestConfig;
+import utils.FileUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.nio.file.Files;
 
 @Slf4j
 public class EmployeeStepDefs {
@@ -29,12 +28,7 @@ public class EmployeeStepDefs {
     @When("I send a POST request to {string}")
     public void sendPostRequestToEmployees(String endpoint) {
         log.info("Thread: " + Thread.currentThread().getId());
-        String payload;
-        try {
-            payload = new String(Files.readAllBytes(Paths.get("src/test/resources/payloads/employee.json")));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read employee payload from file", e);
-        }
+        String payload = FileUtils.readResourceFile(TestConfig.getEmployeePayloadPath());
         log.info("Sending POST request to {} with payload: {}", endpoint, payload);
         response = RequestBuilderFactory.createRequest(endpoint, Map.of("Content-Type", "application/json"), payload)
                 .post();
@@ -47,8 +41,7 @@ public class EmployeeStepDefs {
     public void verifyResponseContainsEmployeeDetails() {
         AssertUtils.assertJsonFieldEquals(response, "name", "Alice Brown");
         AssertUtils.assertJsonFieldEquals(response, "role", "Manager");
-        // Validate response against employee schema
-        AssertUtils.assertJsonSchema(response, "schemas/employee-schema.json");
+        AssertUtils.assertJsonSchema(response, TestConfig.getEmployeeSchemaPath());
     }
 
     @When("I send a POST request to {string} with a payload that is missing required employee fields")
@@ -92,7 +85,7 @@ public class EmployeeStepDefs {
     @Then("the response should contain a list of employees")
     public void verifyResponseContainsListOfEmployees() {
         log.info("Verifying response contains list of employees");
-        List<String[]> rows = CsvUtils.readEnvCsv("employees.csv");
+        List<String[]> rows = CsvUtils.readEnvCsv(TestConfig.getEmployeesTestDataPath());
         List<String> expectedEmployees = new ArrayList<>();
         boolean firstLine = true;
         for (String[] line : rows) {
@@ -108,7 +101,7 @@ public class EmployeeStepDefs {
     public void verifyResponseContainsListOfEmployeesFromCSV() {
         try {
             log.info("Verifying response contains list of employees from CSV");
-            List<String[]> rows = CsvUtils.readEnvCsv("employees.csv");
+            List<String[]> rows = CsvUtils.readEnvCsv(TestConfig.getEmployeesTestDataPath());
             List<String> expectedEmployees = new ArrayList<>();
             boolean firstLine = true;
             for (String[] line : rows) {

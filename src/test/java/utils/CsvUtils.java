@@ -37,7 +37,14 @@ public class CsvUtils {
 
     public static List<String[]> readEnvCsv(String fileName) {
         String env = TestConfig.getProperty("env");
-        String resourcePath = "testdata/" + env + "/" + fileName;
+        String resourcePath;
+        if (fileName.startsWith("testdata/")) {
+            resourcePath = fileName;
+        } else if (fileName.contains("/")) {
+            resourcePath = fileName;
+        } else {
+            resourcePath = "testdata/" + env + "/" + fileName;
+        }
         return readCsv(resourcePath);
     }
 }

@@ -24,5 +24,36 @@ public class TestConfig {
     public static String getProperty(String key) {
         return properties.getProperty(key);
     }
-}
 
+    public static String getBaseUrl() {
+        return properties.getProperty("base.url");
+    }
+
+    public static String getEmployeesEndpoint() {
+        return properties.getProperty("employees.endpoint");
+    }
+
+    public static String getEmployeePayloadPath() {
+        return properties.getProperty("payload.employee");
+    }
+
+    public static String getEmployeeSchemaPath() {
+        return properties.getProperty("schema.employee");
+    }
+
+    public static String getEmployeesTestDataPath() {
+        return properties.getProperty("testdata.employees");
+    }
+
+    public static int getRestAssuredConnectionTimeout() {
+        return Integer.parseInt(properties.getProperty("restassured.connection.timeout", "5000"));
+    }
+
+    public static int getRestAssuredReadTimeout() {
+        return Integer.parseInt(properties.getProperty("restassured.read.timeout", "5000"));
+    }
+
+    public static int getWireMockPort() {
+        return Integer.parseInt(properties.getProperty("wiremock.port", "9090"));
+    }
+}
