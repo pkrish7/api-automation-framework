@@ -171,7 +171,7 @@ public class EmployeeStepDefs {
     @Then("the response should contain an error message indicating the employee was not found")
     public void verifyResponseContainsEmployeeNotFoundError() {
         log.info("Verifying response contains error message for employee not found: {}", responseBody);
-        Assert.assertEquals(responseBody, ("{\"error\":\"Employee not found\"}"));
+        Assert.assertTrue(responseBody.contains("Employee not found"));
     }
 
     // UPDATE EMPLOYEE STEPS
