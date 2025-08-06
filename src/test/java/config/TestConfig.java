@@ -65,13 +65,29 @@ public class TestConfig {
     }
 
     public static String getEmployeesTestDataPath() {
+        String env = properties.getProperty("env", "dev");
         String value = properties.getProperty("testdata.employees");
         if (value == null || value.isEmpty()) {
             log.error("Property testdata.employees not found or empty");
             throw new IllegalStateException("Property testdata.employees not found or empty");
         }
-        log.info("testdata.employees: {}", value);
-        return value;
+
+        if (env == null || env.isEmpty()) {
+            log.warn("Environment not specified, using default 'dev'");
+            env = "dev";
+        }
+
+        log.info("Using environment: {}", env);
+
+        if (value.startsWith("testdata/" + env + "/")) {
+            log.info("testdata.employees path is already environment-specific: {}", value);
+            return value;
+        }
+
+        String fileName = value.substring(value.lastIndexOf('/') + 1);
+        String fullPath = String.join("/", "testdata", env, fileName);
+        log.info("Computed environment-specific testdata.employees path: {}", fullPath);
+        return fullPath;
     }
 
     public static int getWireMockPort() {
