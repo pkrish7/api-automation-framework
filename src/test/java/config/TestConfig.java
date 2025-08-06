@@ -25,10 +25,6 @@ public class TestConfig {
         return properties.getProperty(key);
     }
 
-    public static String getBaseUrl() {
-        return properties.getProperty("base.url");
-    }
-
     public static String getEmployeesEndpoint() {
         return properties.getProperty("employees.endpoint");
     }
