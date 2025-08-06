@@ -45,14 +45,6 @@ public class TestConfig {
         return properties.getProperty("testdata.employees");
     }
 
-    public static int getRestAssuredConnectionTimeout() {
-        return Integer.parseInt(properties.getProperty("restassured.connection.timeout", "5000"));
-    }
-
-    public static int getRestAssuredReadTimeout() {
-        return Integer.parseInt(properties.getProperty("restassured.read.timeout", "5000"));
-    }
-
     public static int getWireMockPort() {
         return Integer.parseInt(properties.getProperty("wiremock.port", "9090"));
     }
