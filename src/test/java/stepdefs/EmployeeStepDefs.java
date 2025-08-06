@@ -25,7 +25,12 @@ public class EmployeeStepDefs {
     @When("I send a POST request to {string}")
     public void sendPostRequestToEmployees(String endpoint) {
         log.info("Thread: " + Thread.currentThread().getId());
-        String payload = "{ \"name\": \"Alice Brown\", \"role\": \"Manager\" }";
+        String payload;
+        try {
+            payload = new String(Files.readAllBytes(Paths.get("src/test/resources/payloads/employee.json")));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read employee payload from file", e);
+        }
         log.info("Sending POST request to {} with payload: {}", endpoint, payload);
         response = RequestBuilderFactory.createRequest(endpoint, Map.of("Content-Type", "application/json"), payload)
                 .post();
