@@ -34,15 +34,15 @@ This document maps each assessment requirement to its implementation status, loc
 | JSON Schema validation | Implemented | `AssertUtils.java`, schemas in `src/test/resources/schemas/` |
 | Thread-safe parallel execution with isolated test data | Implemented | TestNG parallel config in `testng.xml`, environment-specific data in `testdata/` |
 | Environment-specific test datasets | Implemented | `testdata/dev/`, `testdata/qa/`, config in `config.properties` |
- | Allure report integration | Not Implemented | **Pending** |
-| Docker file to run tests automatically | Not Implemented | **Pending** |
-| docker-compose.yaml for dependencies | Not Implemented | **Pending** |
-| Jenkinsfile for CI/CD | Not Implemented | **Pending** |
-| README with CI/CD setup instructions | Not Implemented | **Pending** |
+| Allure report integration | Not Implemented | **Pending** |
+| Docker file to run tests automatically | Implemented | `Dockerfile` in project root |
+| docker-compose.yaml for dependencies | Implemented | `docker-compose.yml` in project root |
+| Jenkinsfile for CI/CD | Implemented | `Jenkinsfile` in project root |
+| README with CI/CD setup instructions | Implemented | `README.md` |
 
 ---
 
 ## Summary
 - All Level 1 requirements are implemented.
-- Most Level 2 requirements are implemented except for Allure report, Docker, docker-compose, Jenkinsfile, and CI/CD documentation.
+- All Level 2 requirements are implemented except for Allure report integration.
 - See the README for setup, execution, and plugin requirements.
