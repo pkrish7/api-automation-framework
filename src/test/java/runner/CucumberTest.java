@@ -14,11 +14,19 @@ import org.testng.annotations.BeforeClass;
 public class CucumberTest extends AbstractTestNGCucumberTests {
     @BeforeClass
     public void setUp() {
-        WireMockServerSetup.startServer();
+        // Only start WireMock if not running under Docker Compose (i.e., if USE_EXTERNAL_WIREMOCK is not set to true)
+        String useExternalWireMock = System.getenv("USE_EXTERNAL_WIREMOCK");
+        if (useExternalWireMock == null || !useExternalWireMock.equalsIgnoreCase("true")) {
+            WireMockServerSetup.startServer();
+        }
     }
 
     @AfterClass
     public void tearDown() {
-        WireMockServerSetup.stopServer();
+        // Only stop WireMock if it was started by this process
+        String useExternalWireMock = System.getenv("USE_EXTERNAL_WIREMOCK");
+        if (useExternalWireMock == null || !useExternalWireMock.equalsIgnoreCase("true")) {
+            WireMockServerSetup.stopServer();
+        }
     }
 }
