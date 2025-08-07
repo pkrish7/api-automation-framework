@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  wiremock:
+    image: wiremock/wiremock:2.35.0
+    ports:
+      - "9090:8080"
+    volumes:
+      - ./src/test/resources/mocks:/home/wiremock
+
+  tests:
+    build: .
+    depends_on:
+      - wiremock
+    environment:
+      - BASE_URL=http://wiremock:8080
+    volumes:
+      - ./target:/app/target
+    command: mvn test -Dtest=runner.CucumberTest
+

@@ -100,6 +100,20 @@ api.version=v1
 - TestNG is configured for parallel execution with 4 threads in `testng.xml`.
 - Cucumber step definitions are thread-safe by design (new instance per scenario).
 
+## Running with Docker
+
+You can build and run your tests in a containerized environment using Docker:
+
+- **Build the Docker image:**
+  ```sh
+  docker build -t api-automation-tests .
+  ```
+- **Run the tests in a container:**
+  ```sh
+  docker run --rm -v $(pwd)/target:/app/target api-automation-tests
+  ```
+- The test reports will be available in your local `target/` directory after the run.
+
 ## Environment-Specific Test Data
 
 - Test data is organized by environment:
@@ -136,6 +150,24 @@ This framework supports rerunning only failed Cucumber scenarios using the rerun
 - `CucumberRerunTest` runs only the scenarios listed in `target/rerun.txt` (i.e., failed scenarios from the previous run).
 
 **Note:** The runner class names in your project should be `CucumberTest.java` (main runner) and `CucumberRerunTest.java` (rerun runner). Update them if needed to match this documentation.
+
+## CI/CD with Jenkins
+
+This project includes a Jenkinsfile for automated CI/CD. Jenkins will:
+- Clone the repository
+- Build the Docker image
+- Use Docker Compose to start both the WireMock server and the test container
+- Archive and publish test reports, including the Cucumber HTML report (requires the HTML Publisher plugin)
+
+### Jenkins Setup
+1. Create a new Pipeline job in Jenkins.
+2. Set the pipeline definition to "Pipeline script from SCM" and provide your repo URL: `https://github.com/pkrish7/api-automation-framework`
+3. Install the "HTML Publisher" plugin in Jenkins for HTML report publishing.
+4. Trigger the job. Jenkins will use the Jenkinsfile to build, test, and archive reports.
+
+### Docker Compose in CI
+- The pipeline uses `docker-compose up --abort-on-container-exit --build` to start both the WireMock server and the test container.
+- Test reports are available in the Jenkins build artifacts and as a direct link to the Cucumber HTML report.
 
 ## IDE Setup
 
