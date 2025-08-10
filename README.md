@@ -35,7 +35,6 @@ This project is a sample API automation framework using Java, TestNG, Cucumber (
 Edit `src/test/resources/config.properties` to change the base URL or other settings:
 ```
 base.url=http://localhost:9090
-api.version=v1
 ```
 
 ## Running Tests
@@ -153,7 +152,10 @@ This framework supports rerunning only failed Cucumber scenarios using the rerun
 
 ## CI/CD with Jenkins
 
-This project includes a Jenkinsfile for automated CI/CD. Jenkins will:
+This project includes a Jenkinsfile intended to automate builds, test execution, and report archiving.
+
+> **Note:** Jenkins pipeline execution was partially tested; some plugin issues prevented full validation on my local setup. The Jenkinsfile and Docker setup are included for easy integration.
+
 - Clone the repository
 - Build the Docker image
 - Use Docker Compose to start both the WireMock server and the test container
@@ -164,6 +166,13 @@ This project includes a Jenkinsfile for automated CI/CD. Jenkins will:
 2. Set the pipeline definition to "Pipeline script from SCM" and provide your repo URL: `https://github.com/pkrish7/api-automation-framework`
 3. Install the "HTML Publisher" plugin in Jenkins for HTML report publishing.
 4. Trigger the job. Jenkins will use the Jenkinsfile to build, test, and archive reports.
+
+## Known Issues / Notes
+
+- The Jenkinsfile is included in the repo and is configured for CI/CD with Docker and report archiving.
+- Due to plugin compatibility issues and environment setup on my local machine, I was unable to fully validate the Jenkins pipeline execution.
+- All other aspects of the framework, including Docker-based test runs, work as expected.
+- Please feel free to reach out if you want assistance troubleshooting or running Jenkins on your environment.
 
 ### Docker Compose in CI
 - The pipeline uses `docker-compose up --abort-on-container-exit --build` to start both the WireMock server and the test container.
