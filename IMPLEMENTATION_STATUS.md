@@ -44,5 +44,5 @@ This document maps each assessment requirement to its implementation status, loc
 
 ## Summary
 - All Level 1 requirements are implemented.
-- All Level 2 requirements are implemented except for Allure report integration.
+- All Level 2 requirements have been implemented except for Allure report integration and full Jenkins pipeline validation due to environment/plugin issues.
 - See the README for setup, execution, and plugin requirements.
