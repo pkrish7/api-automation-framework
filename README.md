@@ -35,7 +35,6 @@ This project is a sample API automation framework using Java, TestNG, Cucumber (
 Edit `src/test/resources/config.properties` to change the base URL or other settings:
 ```
 base.url=http://localhost:9090
-api.version=v1
 ```
 
 ## Running Tests
