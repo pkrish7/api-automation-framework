@@ -5,6 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 import mocks.WireMockServerSetup;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
     features = "src/test/java/features",
@@ -28,5 +29,11 @@ public class CucumberTest extends AbstractTestNGCucumberTests {
         if (useExternalWireMock == null || !useExternalWireMock.equalsIgnoreCase("true")) {
             WireMockServerSetup.stopServer();
         }
+    }
+
+    @Override
+    @DataProvider(parallel = true)
+    public Object[][] scenarios() {
+        return super.scenarios();
     }
 }
