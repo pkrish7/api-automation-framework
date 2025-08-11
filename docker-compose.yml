@@ -13,6 +13,7 @@ services:
       - wiremock
     environment:
       - BASE_URL=http://wiremock:8080
+      - TEST_ENV=qa
     volumes:
       - ./target:/app/target
-    command: mvn test -DsuiteXmlFile=testng.xml
+    command: mvn test -DsuiteXmlFile=testng.xml -Denv=${TEST_ENV}

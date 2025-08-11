@@ -94,29 +94,42 @@ base.url=http://localhost:9090
 
 ## Running with Docker
 
-You can build and run your tests in a containerized environment using Docker:
+You can build and run your tests in a containerized environment using Docker. By default, the QA environment is used.
 
 - **Build the Docker image:**
   ```sh
   docker build -t api-automation-tests .
   ```
-- **Run the tests in a container:**
+- **Run the tests in a container (QA by default):**
   ```sh
   docker run --rm -v $(pwd)/target:/app/target api-automation-tests
   ```
+- **Override the environment at runtime (e.g., for DEV):**
+  ```sh
+  docker run --rm -e TEST_ENV=dev -v $(pwd)/target:/app/target api-automation-tests
+  ```
 - The test reports will be available in your local `target/` directory after the run.
+
+## Running with Docker Compose
+
+By default, Docker Compose uses the QA environment. To run with a different environment, override `TEST_ENV` at runtime:
+
+- **Run with QA (default):**
+  ```sh
+  docker-compose up --abort-on-container-exit
+  ```
+- **Run with DEV:**
+  ```sh
+  TEST_ENV=dev docker-compose up --abort-on-container-exit
+  ```
 
 ## Environment-Specific Test Data
 
 - Test data is organized by environment:
   - `src/test/resources/testdata/dev/employees.csv`
   - `src/test/resources/testdata/qa/employees.csv`
-- The environment is set in `src/test/resources/config.properties` via the `env` property (e.g., `env=dev`).
-- You can override the environment at runtime:
-  ```sh
-  mvn test -Denv=qa
-  ```
-- Step definitions automatically load the correct test data for the selected environment.
+- The environment is set in `src/test/resources/config.properties` via the `env` property (e.g., `env=dev`), but is typically overridden at runtime using the `-Denv` system property (set by Docker/Compose as `TEST_ENV`).
+- You can override the environment at runtime as shown above.
 
 ## Retrying Failed Scenarios (Cucumber Rerun)
 

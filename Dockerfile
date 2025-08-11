@@ -8,4 +8,5 @@ RUN mvn clean install
 FROM maven:3.9.6-eclipse-temurin-17
 WORKDIR /app
 COPY --from=build /app .
-CMD ["mvn", "test", "-DsuiteXmlFile=testng.xml"]
+ENV TEST_ENV=qa
+CMD ["mvn", "test", "-DsuiteXmlFile=testng.xml", "-Denv=${TEST_ENV}"]
