@@ -65,25 +65,21 @@ public class TestConfig {
     }
 
     public static String getEmployeesTestDataPath() {
-        String env = properties.getProperty("env", "dev");
+        String env = getEnv(); // Use dynamic env selection
         String value = properties.getProperty("testdata.employees");
         if (value == null || value.isEmpty()) {
             log.error("Property testdata.employees not found or empty");
             throw new IllegalStateException("Property testdata.employees not found or empty");
         }
-
         if (env == null || env.isEmpty()) {
             log.warn("Environment not specified, using default 'dev'");
             env = "dev";
         }
-
         log.info("Using environment: {}", env);
-
         if (value.startsWith("testdata/" + env + "/")) {
             log.info("testdata.employees path is already environment-specific: {}", value);
             return value;
         }
-
         String fileName = value.substring(value.lastIndexOf('/') + 1);
         String fullPath = String.join("/", "testdata", env, fileName);
         log.info("Computed environment-specific testdata.employees path: {}", fullPath);
@@ -99,5 +95,17 @@ public class TestConfig {
         int port = Integer.parseInt(value);
         log.info("wiremock.port: {}", port);
         return port;
+    }
+
+    public static String getEnv() {
+        String env = System.getProperty("env");
+        if (env != null && !env.isEmpty()) {
+            log.info("Using environment from system property: {}", env);
+            return env;
+        }
+        // Fallback to config.properties
+        env = properties.getProperty("env", "dev");
+        log.info("Using environment from config.properties: {}", env);
+        return env;
     }
 }

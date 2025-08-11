@@ -20,17 +20,6 @@ pipeline {
             }
         }
 
-        stage('Run Tests in Docker') {
-            when {
-                expression { false } // Disable this stage; use Docker Compose instead
-            }
-            steps {
-                script {
-                    sh "docker run --rm -v $WORKSPACE/target:/app/target $DOCKER_IMAGE"
-                }
-            }
-        }
-
         stage('Run Tests with Docker Compose') {
             steps {
                 script {
