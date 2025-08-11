@@ -15,5 +15,4 @@ services:
       - BASE_URL=http://wiremock:8080
     volumes:
       - ./target:/app/target
-    command: mvn test -Dtest=runner.CucumberTest
-
+    command: mvn test -DsuiteXmlFile=testng.xml

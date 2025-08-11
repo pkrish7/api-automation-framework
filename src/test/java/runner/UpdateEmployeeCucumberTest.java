@@ -8,11 +8,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
-    features = "src/test/java/features",
+    features = "src/test/java/features/UpdateEmployee.feature",
     glue = {"stepdefs"},
     plugin = {"pretty", "summary", "html:target/cucumber-report.html", "json:target/cucumber-report.json", "rerun:target/rerun.txt"}
 )
-public class CucumberTest extends AbstractTestNGCucumberTests {
+public class UpdateEmployeeCucumberTest extends AbstractTestNGCucumberTests {
     @BeforeClass
     public void setUp() {
         // Only start WireMock if not running under Docker Compose (i.e., if USE_EXTERNAL_WIREMOCK is not set to true)

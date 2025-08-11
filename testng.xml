@@ -3,7 +3,10 @@
 <suite name="APIAutomationSuite" parallel="classes" thread-count="4">
     <test name="CucumberTests">
         <classes>
-            <class name="runner.CucumberTest"/>
+            <class name="runner.CreateEmployeeCucumberTest"/>
+            <class name="runner.ReadEmployeeCucumberTest"/>
+            <class name="runner.UpdateEmployeeCucumberTest"/>
+            <class name="runner.DeleteEmployeeCucumberTest"/>
         </classes>
     </test>
 </suite>

@@ -8,4 +8,4 @@ RUN mvn clean install
 FROM maven:3.9.6-eclipse-temurin-17
 WORKDIR /app
 COPY --from=build /app .
-CMD ["mvn", "test", "-Dtest=runner.CucumberTest"]
+CMD ["mvn", "test", "-DsuiteXmlFile=testng.xml"]

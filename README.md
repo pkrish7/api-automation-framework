@@ -130,7 +130,7 @@ This framework supports rerunning only failed Cucumber scenarios using the Cucum
 ### Example Workflow
 1. Run all scenarios:
    ```sh
-   mvn test -Dtest=runner.CucumberTest
+   mvn test -Dtest=runner.CreateEmployeeCucumberTest
    ```
 2. If there are failures, rerun only failed scenarios:
    ```sh
